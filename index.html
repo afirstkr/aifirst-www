@@ -1,0 +1,157 @@
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+<script src="vue.js"></script>
+
+<div id="app">
+  <img :src="logo">
+
+  <form @submit.prevent="onLoginSubmit">
+    <input v-model="user._userID" placeholder="id...">
+    <input v-model="user._password" placeholder="password...">
+    <button type="submit">Login</button>
+  </form>
+  
+  <form @submit.prevent="onSignupSubmit">
+    <input v-model="signupUser._userID" placeholder="id...">
+    <input v-model="signupUser._password" placeholder="password...">
+    <input v-model="signupUser._userName" placeholder="name...">
+    <input v-model="signupUser._mobile" placeholder="mobile...">
+    <input v-model="signupUser._birthdate" placeholder="birthdate...">
+    <input v-model="signupUser._sex" placeholder="sex...">
+    <input v-model="signupUser._class" placeholder="class...">
+    <button type="submit">Signup</button>
+  </form>
+  
+  <transition name="fade">
+    <p v-if="token"> TOKEN: {{ token }} </p>
+    <p v-if="errorMessage"> TOKEN: {{ errorMessage }} </p>
+  </transition>
+  
+  <button @click="getUserList">사용자 목록 가져오기</button>
+  
+  <div>
+    <ul v-for="user in userList" :key="user._userID">
+      <li>
+        <span v-for="(value, key) in user">{{ value }} / </span>
+      </li>
+    </ul>
+  </div>
+  
+</div>
+
+
+
+<script lang="javascript">
+
+var vm = new Vue({
+  el: "#app",
+  data: {
+    logo: 'public/images/logo.png',
+    user: {
+      _userID: 'user10',
+      _password: 'user10',
+      _loginType: 'WEB_LOGIN'
+    },
+    signupUser: {
+      _userID: 'user10',
+      _password: 'user10',
+      _userName: '이강훈',
+      _mobile: '01088113136',
+      _birthdate: '19420314',
+      _sex: 'M',
+      _class: 'MEMBER',
+      _loginType: 'WEB_LOGIN',
+      _loginType: 'WEB_LOGIN'
+    },
+    userList: [],
+    token: null,
+    responseData: null,
+    errorMessage: ''
+  },
+  methods: {
+    getUserList: function(event) {
+      var vm = this
+      axios.defaults.baseURL = 'https://api.aifirst.kr';
+      // axios.defaults.headers.post['Content-Type'] = 'application/json';
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + vm.token;
+      
+      vm.userList = []
+      axios.get('/user/')
+        .then(function (response) {
+          vm.userList = response.data.data
+          console.log('userList', vm.userList)
+        })
+        .catch(function (error) {
+          vm.errorMessage = error.data.data
+        })
+    },
+    onSignupSubmit: function(event) {
+      var vm = this
+      axios.defaults.baseURL = 'https://api.aifirst.kr';
+      axios.defaults.headers.post['Content-Type'] = 'application/json';
+      
+      axios.post('/user/signup', vm.signupUser)
+        .then(function (response) {
+          vm.responseData = response.data.data
+        })
+        .catch(function (error) {
+          vm.errorMessage = error.data.data
+        })
+    },
+    onLoginSubmit: function(event) {
+      var vm = this
+      axios.defaults.baseURL = 'https://api.aifirst.kr';
+      axios.defaults.headers.post['Content-Type'] = 'application/json';
+      // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      
+      axios.post('/user/login', vm.user)
+        .then(function (response) {
+          vm.token = response.data.data
+        })
+        .catch(function (error) {
+          console.log('error', error)
+          vm.errorMessage = error.data.data
+        })
+    }
+  }
+})
+
+</script>
+
+
+<style lang="css">
+
+#app {
+  padding: 20px;
+}
+
+input {
+  height: 40px;
+  width: auto;
+  padding: 10px;
+  
+  -moz-border-radius:5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+}
+
+button, submit {
+  height: 40px;
+  width: auto;
+  padding: 10px;
+  
+  -moz-border-radius:5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
+}
+</style>
