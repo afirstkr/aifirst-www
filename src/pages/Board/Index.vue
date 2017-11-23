@@ -27,7 +27,7 @@
    * The board index page.
    */
 
-  import VLayout from '@/layouts/Default';
+  import VLayout from '@/layouts/Main';
   import VCard from '@/components/Card';
 
   export default {

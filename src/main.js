@@ -19,8 +19,9 @@ import './plugins/axios';
 import { i18n } from './plugins/vue-i18n';
 import { router } from './plugins/vue-router';
 import './plugins/vuex-router-sync';
-import './plugins/bootstrap';
 import './plugins/font-awesome';
+import './plugins/vue-bootstrap';
+import './plugins/vue-carousel';
 
 /* ============
  * Styling

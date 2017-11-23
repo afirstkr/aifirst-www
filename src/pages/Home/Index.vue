@@ -1,32 +1,37 @@
 <template>
   <v-layout>
-    <v-card contextual-style="dark">
-      <span slot="header">
-        AIFIRST 커뮤니티
-      </span>
+    <div class="main-banner">
+      <b-carousel id="main-banner"
+                  style="text-shadow: 1px 1px 2px #333;"
+                  controls
+                  indicators
+                  background="#ababab"
+                  :interval="5000"
+                  img-width="1024"
+                  img-height="480" >
+        <!-- slides with image & text -->
+        <b-carousel-slide img-src="/static/images/banner-01.jpg">
+          <h1>Hello world!</h1>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </b-carousel-slide>
+        <b-carousel-slide img-src="/static/images/banner-02.jpg">
+          <h1>Hello world!</h1>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </b-carousel-slide>
+        <b-carousel-slide img-src="/static/images/banner-03.jpg">
+          <h1>Hello world!</h1>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
+
+    <div class="container">
       <div slot="body">
-        <p>
-          사단법인 한국인공지능협회
-        </p>
-        <p>
-          contact us:
-        </p>
-        <p>
-          <a class="btn btn-outline-primary" href="http://koraia.org" target="_blank" >
-            <i
-              class="fa fa-rocket fa-fw"
-              aria-hidden="true"
-            ></i>
-            <span class="pl-2">
-              한국인공지능협회
-            </span>
-          </a>
-        </p>
       </div>
       <div slot="footer">
-        sponsor by KORAIA
+        <span>sponsor by KORAIA</span>
       </div>
-    </v-card>
+    </div>
   </v-layout>
 </template>
 
@@ -38,8 +43,9 @@
    * The home index page.
    */
 
-  import VLayout from '@/layouts/Default';
+  import VLayout from '@/layouts/Main';
   import VCard from '@/components/Card';
+  import { Carousel, Slide } from 'vue-carousel';
 
   export default {
     /**
@@ -53,6 +59,8 @@
     components: {
       VLayout,
       VCard,
+      Carousel,
+      Slide,
     },
   };
 </script>

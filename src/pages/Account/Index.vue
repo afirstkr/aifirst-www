@@ -49,7 +49,7 @@
    * Page where the user can view the account information.
    */
 
-  import VLayout from '@/layouts/Default';
+  import VLayout from '@/layouts/Main';
   import VCard from '@/components/Card';
 
   export default {
