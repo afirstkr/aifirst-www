@@ -6,18 +6,19 @@
         a
           i.fa.fa-plus
     .ibox-content
-      a(href='post_detail.html' v-for='post in board.posts' :key='post.id')
+      router-link(to='/post' v-for='post in board.posts' :key='post.id')
         p  {{post.title}}
 </template>
 
-<script lang="coffee">
+<script>
 
 export default {
-  name: 'TopFivePosts'
-  props: ['board']
-  data: () =>
+  name: 'TopFivePosts',
+  props: ['board'],
+  data: (() => {
     return {
-      hello: 'world'
+      hello: 'world',
     }
+  })
 }
 </script>

@@ -1,15 +1,16 @@
 <template lang="pug">
   .container
-    p Sample
+    p {{pageTitle}}
 </template>
 
-<script lang="coffee">
+<script>
 
 export default {
-  name: 'Sample'
-  data: () =>
+  name: 'Sample',
+  data: (() => {
     return {
-      hello: 'world'
+      pageTitle: 'Sample'
     }
+  })
 }
 </script>

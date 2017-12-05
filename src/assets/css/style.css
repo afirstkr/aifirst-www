@@ -3390,7 +3390,7 @@ video {
 /* Summernote text editor  */
 .note-editor {
   height: auto !important;
-  min-height: 300px;
+  /* min-height: 300px; */
 }
 .note-editor.fullscreen {
   z-index: 2050;
@@ -8250,4 +8250,27 @@ a {
     padding-left: 0px;
     padding-right: 0px;
   }
+
+  .ibox-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
+
+.height-full {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+.loginscreen .form-control {
+  padding: 24px 24px !important;
+  font-size: 16px;
+}
+
+.btn {
+  /* line-height: 2.0; */
+}
+
