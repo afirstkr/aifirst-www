@@ -4,6 +4,9 @@ import Main from '@/pages/Main'
 import Login from '@/pages/Login'
 import Signup from '@/pages/Signup'
 
+
+import Members from '@/pages/Members'
+import Profile from '@/pages/Profile'
 import Post from '@/pages/Post'
 import PostList from '@/pages/PostList'
 import PostEditor from '@/pages/PostEditor'
@@ -30,6 +33,16 @@ export default new Router({
       path: '/signup',
       name: 'Signup',
       component: Signup
+    },
+    {
+      path: '/members',
+      name: 'Members',
+      component: Members
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     },
     {
       path: '/post',

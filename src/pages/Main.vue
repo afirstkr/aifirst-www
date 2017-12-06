@@ -30,7 +30,8 @@
           | {{contact}}
         div
           a(href='http://koraia.org', target='_blank', style='color:white;') © 2017 KORAIA All rights reserved.
-
+      //- right-sidebar
+      
 </template>
 
 
@@ -39,7 +40,9 @@
 import Vue from 'vue'
 import Login from '@/pages/Login'
 import MainHeader from '@/components/MainHeader'
+import RightSidebar from '@/components/RightSidebar'
 import TopFivePosts from '@/components/TopFivePosts'
+
 
 
 export default {
@@ -47,6 +50,7 @@ export default {
   components: {
     Login,
     MainHeader,
+    RightSidebar,
     TopFivePosts
   },
   data: () => {

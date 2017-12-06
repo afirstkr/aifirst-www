@@ -26,13 +26,13 @@
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                a(href='') 기업
+                router-link(to='/posts') 기업
               li
-                a(href='') 학교
+                router-link(to='/posts') 학교
               li
-                a(href='') 연구소
+                router-link(to='/posts') 연구소
               li
-                a(href='') 온라인커뮤니티
+                router-link(to='/posts') 온라인커뮤니티
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
               span  아카데미 
@@ -48,48 +48,104 @@
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                a(href='') 팝니다
+                router-link(to='/posts') 팝니다
               li
-                a(href='') 삽니다
+                router-link(to='/posts') 삽니다
               li
-                a(href='') 구인구직
+                router-link(to='/posts') 구인구직
               li
-                a(href='') 프로젝트
+                router-link(to='/posts') 프로젝트
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
               span  이벤트 
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                a(href='') 공모전
+                router-link(to='/posts') 공모전
               li
-                a(href='') 스터디모임
+                router-link(to='/posts') 스터디모임
               li
-                a(href='') 세미나
+                router-link(to='/posts') 세미나
               li
-                a(href='') 컨퍼런스
+                router-link(to='/posts') 컨퍼런스
               li
-                a(href='') 엑스포
+                router-link(to='/posts') 엑스포
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
               span  컨소시엄 
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                a(href='') 정부사업공고
+                router-link(to='/posts') 정부사업공고
               li
-                a(href='') R&D사업제안
+                router-link(to='/posts') R&D사업제안
               li
-                a(href='') 참여사목록
+                router-link(to='/posts') 참여사목록
               li
-                a(href='') 전문가목록
+                router-link(to='/posts') 전문가목록
               li
-                a(href='') Q&A
+                router-link(to='/posts') Q&A
+          li.dropdown
+            a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
+              span  회원 
+              span.caret
+            ul.dropdown-menu(role='menu')
+              li
+                router-link(to='/members') 전문가
+              li
+                router-link(to='/members') 기업
+
         ul.nav.navbar-top-links.navbar-right
-          li
-            router-link(to="/login")
-              i.fa.fa-sign-out
-                |  Log out
+          li.dropdown
+            a.dropdown-toggle.count-info(data-toggle='dropdown', href='#')
+              i.fa.fa-bell
+              span.label.label-primary 8
+            ul.dropdown-menu.dropdown-alerts
+              li
+                router-link(to='/')
+                  div
+                    i.fa.fa-envelope.fa-fw
+                    |  You have 16 messages
+                    span.pull-right.text-muted.small 4 minutes ago
+              li.divider
+              li
+                router-link(to='/')
+                  div
+                    i.fa.fa-twitter.fa-fw
+                    |  3 New Followers
+                    span.pull-right.text-muted.small 12 minutes ago
+              li.divider
+              li
+                router-link(to='/')
+                  div
+                    i.fa.fa-upload.fa-fw
+                    |  Server Rebooted
+                    span.pull-right.text-muted.small 4 minutes ago
+              li.divider
+              li
+                .text-center.link-block
+                  router-link(to='/')
+                    strong See All Alerts
+                    i.fa.fa-angle-right
+
+          li.dropdown
+            a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
+              span  브루스 
+              span.caret
+            ul.dropdown-menu(role='menu')
+              li
+                router-link(to='/profile') 프로필
+              li
+                router-link(to='/posts') 메뉴
+              li
+                router-link(to='/posts') 찜목록
+              li.divider
+              li
+                router-link(to='/posts') 로그아웃
+          //- li
+          //-   a.right-sidebar-toggle
+          //-     i.fa.fa-tasks
+
 
 </template>
 
@@ -107,4 +163,8 @@ export default {
 
 
 <style>
+.top-navigation .nav > li > a {
+    padding: 15px 12px;
+    color: #676a6c;
+}
 </style>
