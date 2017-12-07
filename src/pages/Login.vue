@@ -6,11 +6,11 @@
           div
             router-link(to="/")
               h1.logo-name(style='font-size: 100px;') AI First
-          form.m-t(role='form', action='index.html')
+          form.m-t(role='form', @submit.prevent='login(user)')
             .form-group
-              input.form-control(type='email', placeholder='Username', required='')
+              input.form-control(type='email', v-model='user.email', placeholder='Username', required='')
             .form-group
-              input.form-control(type='password', placeholder='Password', required='')
+              input.form-control(type='password', v-model='user.password', placeholder='Password', required='')
             button.btn.btn-lg.btn-primary.full-width.m-b(type='submit') Login
             router-link(to='/forgot_password')
               small Forgot password?
@@ -26,9 +26,17 @@ export default {
   name: 'Login',
   data: (() => {
     return {
-      pageTitle: 'Login'
+      user: {
+        email: null,
+        password: null,
+      },
     }
-  })
+  }),
+  methods: {
+    login(user) {
+      this.$store.dispatch('auth/login', user);
+    },
+  }
 }
 </script>
 

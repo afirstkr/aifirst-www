@@ -141,7 +141,7 @@
                 router-link(to='/posts') 찜목록
               li.divider
               li
-                router-link(to='/posts') 로그아웃
+                router-link(to='/login') 로그아웃
           //- li
           //-   a.right-sidebar-toggle
           //-     i.fa.fa-tasks
