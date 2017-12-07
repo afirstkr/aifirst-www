@@ -21,7 +21,7 @@
                 h5 프로필 상세
               div
                 .ibox-content.no-padding.border-left-right
-                  img.img-responsive(alt='image', src='src/assets/img/profile_big.jpg')
+                  img.img-responsive(alt='image', src='static/img/profile_big.jpg')
                 .ibox-content.profile-content
                   h4
                     strong 브루스리 / (1,000p)
@@ -51,7 +51,7 @@
                   .feed-activity-list
                     .feed-element
                       a.pull-left(href='#')
-                        img.img-circle(alt='image', src='src/assets/img/bruce.jpg')
+                        img.img-circle(alt='image', src='static/img/bruce.jpg')
                       .media-body
                         small.pull-right.text-navy 1m ago
                         strong 브루스리
@@ -60,7 +60,7 @@
                         small.text-muted Today 5:60 pm - 12.06.2014
                     .feed-element
                       a.pull-left(href='#')
-                        img.img-circle(alt='image', src='src/assets/img/profile.jpg')
+                        img.img-circle(alt='image', src='static/img/profile.jpg')
                       .media-body
                         small.pull-right 5m ago
                         strong 청심이

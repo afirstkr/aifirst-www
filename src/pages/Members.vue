@@ -19,7 +19,7 @@
               a(href='profile.html')
                 .col-sm-4
                   .text-center
-                    img.img-circle.m-t-xs.img-responsive(alt='image', src='src/assets/img/bruce.jpg')
+                    img.img-circle.m-t-xs.img-responsive(alt='image', src='static/img/bruce.jpg')
                     .m-t-xs.font-bold 개발자
                 .col-sm-8
                   h3
@@ -42,7 +42,7 @@
               a(href='profile.html')
                 .col-sm-4
                   .text-center
-                    img.img-circle.m-t-xs.img-responsive(alt='image', src='src/assets/img/bruce.jpg')
+                    img.img-circle.m-t-xs.img-responsive(alt='image', src='static/img/bruce.jpg')
                     .m-t-xs.font-bold 개발자
                 .col-sm-8
                   h3

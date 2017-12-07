@@ -43,8 +43,6 @@ import MainHeader from '@/components/MainHeader'
 import RightSidebar from '@/components/RightSidebar'
 import TopFivePosts from '@/components/TopFivePosts'
 
-
-
 export default {
   name: 'Main',
   components: {
