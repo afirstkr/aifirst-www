@@ -6,12 +6,16 @@
  * account module.
  */
 
-import { FIND } from './mutation-types';
+import { FIND, UPDATE } from './mutation-types';
 
 export default {
   [FIND](state, account) {
     state.email = account.email;
-    state.firstName = account.firstName;
-    state.lastName = account.lastName;
+    state.displayName = account.displayName;
+  },
+
+  [UPDATE](state, account) {
+    state.email = account.email;
+    state.displayName = account.displayName;
   },
 };

@@ -22,8 +22,9 @@ export default {
     }
   },
 
-  [REGISTER]() {
-    //
+  [REGISTER](state, account) {
+    state.authenticated = true;
+    localStorage.setItem('id_token', account.uid);
   },
 
   [LOGIN](state, token) {

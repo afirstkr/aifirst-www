@@ -7,7 +7,9 @@
  */
 
 export const FIND = 'FIND';
+export const UPDATE = 'UPDATE';
 
 export default {
   FIND,
+  UPDATE
 };

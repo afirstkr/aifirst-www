@@ -95,7 +95,11 @@
               li
                 router-link(to='/members') 기업
 
-        ul.nav.navbar-top-links.navbar-right
+        ul.nav.navbar-top-links.navbar-right(v-if='!authenticated')
+          li
+            router-link(to='/login') 로그인
+
+        ul.nav.navbar-top-links.navbar-right(v-if='authenticated')
           li.dropdown
             a.dropdown-toggle.count-info(data-toggle='dropdown', href='#')
               i.fa.fa-bell
@@ -128,9 +132,10 @@
                     strong See All Alerts
                     i.fa.fa-angle-right
 
+          
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  브루스 
+              span  {{account.displayName || '로그인'}} 
               span.caret
             ul.dropdown-menu(role='menu')
               li
@@ -141,7 +146,7 @@
                 router-link(to='/posts') 찜목록
               li.divider
               li
-                router-link(to='/login') 로그아웃
+                a(@click='logout()') 로그아웃
           //- li
           //-   a.right-sidebar-toggle
           //-     i.fa.fa-tasks
@@ -150,14 +155,21 @@
 </template>
 
 <script>
+import store from '@/store';
 
 export default {
   name: 'MainHeader',
   data: (() => {
     return {
-      pageTitle: 'MainHeader'
+      authenticated: store.state.auth.authenticated,
+      account: store.state.account
     }
-  })
+  }),
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout');
+    },
+  }
 }
 </script>
 

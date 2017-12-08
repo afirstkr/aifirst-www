@@ -6,13 +6,15 @@
           div
             router-link(to='/')
               h1.logo-name(style='font-size: 100px;') AI First
-          form.m-t(role='form', action='login.html')
+          form.m-t(role='form', @submit.prevent='register(user)')
             .form-group
-              input.form-control(type='text', placeholder='Name', required='')
+              input.form-control(type='text', v-model='user.displayName', placeholder='Name', required='')
             .form-group
-              input.form-control(type='email', placeholder='Email', required='')
+              input.form-control(type='email', v-model='user.email', placeholder='Email', required='')
             .form-group
-              input.form-control(type='password', placeholder='Password', required='')
+              input.form-control(type='password', v-model='user.password',placeholder='Password', required='')
+            .form-group
+              input.form-control(type='password', v-model='user.passwordConfirm',placeholder='Password Confirm.', required='')
             .form-group
               .checkbox.i-checks
                 label
@@ -27,13 +29,25 @@
 </template>
 
 <script>
+import Firebase from 'firebase'
 
 export default {
   name: 'Signup',
   data: (() => {
     return {
-      pageTitle: 'Signup'
+      user: {
+        displayName: null,
+        email: null,
+        passwordConfirm: null,
+        password: null,
+      }
     }
-  })
+  }),
+  methods: {
+    register: function (user) {
+      console.log('register:user', user)
+      this.$store.dispatch('auth/register', user)
+    }
+  }
 }
 </script>

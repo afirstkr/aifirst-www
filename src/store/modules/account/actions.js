@@ -9,7 +9,19 @@
 import Transformer from '@/transformers/AccountTransformer';
 import * as types from './mutation-types';
 
+import Firebase from 'firebase'
+
 export const find = ({ commit }) => {
+  const user = Firebase.auth().currentUser
+  if (user) {
+    commit(types.FIND, Transformer.fetch(user));
+  } else {
+    commit(types.LOGOUT);
+  }
+  
+};
+
+export const update = ({ commit }, account) => {
   /*
    * Normally you would use a proxy to fetch the account:
    *
@@ -22,15 +34,16 @@ export const find = ({ commit }) => {
    *    console.log('Request failed...');
    *  });
    */
-  const account = {
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'jonh@doe.com',
-  };
+  // const account = {
+  //   first_name: 'John',
+  //   last_name: 'Doe',
+  //   email: 'jonh@doe.com',
+  // };
 
-  commit(types.FIND, Transformer.fetch(account));
+  commit(types.UPDATE, Transformer.fetch(account));
 };
 
 export default {
   find,
+  update,
 };
