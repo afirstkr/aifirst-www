@@ -20,14 +20,6 @@
                 | {{chat.createdAt}}
             .chat-message
               | {{chat.text}}
-        //- .left(v-if="!isMe(chat.email)" v-for='chat in chatList' :key='chat.id' :id='chat.id')
-        //-   .author-name
-        //-     | {{chat.displayName}}
-        //-     small.chat-date
-        //-       | {{chat.createdAt}}
-        //-   .chat-message.active
-        //-     | {{chat.text}}
-        
         
       .form-chat
         .input-group.input-group-sm
@@ -49,24 +41,46 @@ import firebase from 'firebase'
 
 Vue.use(VueChatScroll)
 
+let unsubscribe;
 export default {
   name: 'ChatPanel',
   data: (() => {
     return {
-      category: store.state.route.name,
+      category: store.state.route.path,
       authenticated: store.state.auth.authenticated,
       account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account,
       isActive: false,
-      chatRef: Vue.$db.collection(`chat_${store.state.route.name}`),
+      chatRef: Vue.$db.collection(`chat${store.state.route.path}`),
       chatList: [],
       text: ''
     }
   }),
+  watch: {
+    '$route' (to, from){
+      this.category = to.path
+      this.chatRef = Vue.$db.collection(`chat${to.path}`)
+
+      const vm = this
+      if(unsubscribe) unsubscribe()
+      unsubscribe = this.chatRef
+        .orderBy('createdAt', 'desc').limit(50)
+        .onSnapshot(function (querySnapshot) {
+          let lastId = ''
+          vm.chatList = []
+          querySnapshot.forEach(function (doc) {
+            if(!lastId) lastId = doc.data().id
+            vm.chatList.unshift(doc.data())
+          })
+          const bottom = $('.small-chat-box .content').prop('scrollHeight')
+          $('.sscroll').slimScroll({scrollTo: bottom})
+        })
+    }
+  },
   mounted() {
     initWidgets()
-
     const vm = this
-    this.chatRef
+    if(unsubscribe) unsubscribe()
+    unsubscribe = this.chatRef
       .orderBy('createdAt', 'desc').limit(50)
       .onSnapshot(function (querySnapshot) {
         let lastId = ''
@@ -74,9 +88,7 @@ export default {
         querySnapshot.forEach(function (doc) {
           if(!lastId) lastId = doc.data().id
           vm.chatList.unshift(doc.data())
-          console.log('message', doc.data().text)
         })        
-
         const bottom = $('.small-chat-box .content').prop('scrollHeight')
         $('.sscroll').slimScroll({scrollTo: bottom})
       })
@@ -87,6 +99,7 @@ export default {
       else return false
     },
     sendMessage(text) {
+      console.log('store.state.route', store.state.route)
       if(!text) return
       
       this.chatRef.add({

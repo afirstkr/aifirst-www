@@ -60,6 +60,8 @@
                     abbr(title='Phone') P:
                     |  (123) 456-7890
                 .clearfix
+      chat-panel
+
 
 
 </template>
@@ -67,11 +69,13 @@
 <script>
 
 import MainHeader from '@/components/MainHeader'
+import ChatPanel from '@/components/ChatPanel'
 
 export default {
   name: 'Members',
   components: {
-    MainHeader
+    MainHeader,
+    ChatPanel
   },
   data: (() => {
     return {

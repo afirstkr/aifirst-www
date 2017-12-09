@@ -56,7 +56,7 @@ export default [
     component: Post
   },
   {
-    path: '/posts',
+    path: '/:channel/posts',
     name: 'postList',
     component: PostList
   },
