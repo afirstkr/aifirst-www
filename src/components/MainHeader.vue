@@ -135,7 +135,7 @@
           
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  {{account.displayName || '로그인'}} 
+              span {{currentUser.displayName || currentUser.email}} 
               span.caret
             ul.dropdown-menu(role='menu')
               li
@@ -156,11 +156,13 @@
 
 <script>
 import store from '@/store';
+import firebase from 'firebase'
 
 export default {
   name: 'MainHeader',
   data: (() => {
     return {
+      currentUser: firebase.auth().currentUser,
       authenticated: store.state.auth.authenticated,
       account: store.state.account
     }

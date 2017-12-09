@@ -15,12 +15,12 @@ import ForgotPassword from '@/pages/ForgotPassword'
 export default [
   {
     path: '/',
-    name: 'Main',
+    name: 'main',
     component: Main
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: Login,
 
     meta: {
@@ -29,7 +29,7 @@ export default [
   },
   {
     path: '/signup',
-    name: 'Signup',
+    name: 'signup',
     component: Signup,
 
     meta: {
@@ -38,12 +38,12 @@ export default [
   },
   {
     path: '/members',
-    name: 'Members',
+    name: 'members',
     component: Members
   },
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'profile',
     component: Profile,
 
     meta: {
@@ -52,12 +52,12 @@ export default [
   },
   {
     path: '/post',
-    name: 'Post',
+    name: 'post',
     component: Post
   },
   {
     path: '/posts',
-    name: 'PostList',
+    name: 'postList',
     component: PostList
   },
   {

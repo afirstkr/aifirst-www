@@ -15,6 +15,8 @@
               input.form-control(type='password', v-model='user.password',placeholder='Password', required='')
             .form-group
               input.form-control(type='password', v-model='user.passwordConfirm',placeholder='Password Confirm.', required='')
+            .error
+              p {{error}}
             .form-group
               .checkbox.i-checks
                 label
@@ -40,14 +42,30 @@ export default {
         email: null,
         passwordConfirm: null,
         password: null,
-      }
+      },
+      error: null
     }
   }),
   methods: {
     register: function (user) {
-      console.log('register:user', user)
-      this.$store.dispatch('auth/register', user)
+      if(user.password !== user.passwordConfirm)
+        this.error = '비밀번호를 확인해 주세요.'
+
+      this.$store
+        .dispatch('auth/register', user)
+        .catch((err) => {
+          this.error = err.message
+        })
+    },
+    onKeyup() {
+      this.error = null
     }
   }
 }
 </script>
+
+<style scoped>
+.error p {
+  color: #DE372C;
+}
+</style>

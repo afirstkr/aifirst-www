@@ -6,6 +6,7 @@
  */
 
 export default {
-  email: null,
-  displayName: null
+  id: Date.now(),
+  email: Date.now(),
+  displayName: Date.now()
 };

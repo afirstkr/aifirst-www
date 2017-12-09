@@ -40,7 +40,7 @@
                         td
                           | 이강훈
                         td
-                          | <span>{{ "12.02.2018 10:00 am" | moment("ddd, hA") }}</span>
+                          | <span>Sun, 10AM</span>
                         td
                           span 100
                         td
@@ -54,7 +54,7 @@
                         td
                           | 이강훈
                         td
-                          | <span>{{ "12.02.2018 10:00 am" | moment("ddd, hA") }}</span>
+                          | <span>Sun, 10AM</span>
                         td
                           span 100
                         td
@@ -68,23 +68,27 @@
                         td
                           | 이강훈
                         td
-                          | <span>{{ "12.02.2018 10:00 am" | moment("ddd, hA") }}</span>
+                          | <span>Sun, 10AM</span>
                         td
                           span 100
                         td
                           span 100
-
+    
+    chat-panel
 
 </template>
 
 <script>
 
 import MainHeader from '@/components/MainHeader'
+import ChatPanel from '@/components/ChatPanel'
+import 'vue-moment'
 
 export default {
   name: 'PostList',
   components: {
-    MainHeader
+    MainHeader,
+    ChatPanel
   },
   data: (() => {
     return {

@@ -15,10 +15,7 @@ export const find = ({ commit }) => {
   const user = Firebase.auth().currentUser
   if (user) {
     commit(types.FIND, Transformer.fetch(user));
-  } else {
-    commit(types.LOGOUT);
   }
-  
 };
 
 export const update = ({ commit }, account) => {

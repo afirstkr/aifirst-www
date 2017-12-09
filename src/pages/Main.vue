@@ -31,7 +31,9 @@
         div
           a(href='http://koraia.org', target='_blank', style='color:white;') © 2017 KORAIA All rights reserved.
       //- right-sidebar
-      
+
+      chat-panel
+
 </template>
 
 
@@ -42,6 +44,7 @@ import Login from '@/pages/Login'
 import MainHeader from '@/components/MainHeader'
 import RightSidebar from '@/components/RightSidebar'
 import TopFivePosts from '@/components/TopFivePosts'
+import ChatPanel from '@/components/ChatPanel'
 
 export default {
   name: 'Main',
@@ -49,7 +52,8 @@ export default {
     Login,
     MainHeader,
     RightSidebar,
-    TopFivePosts
+    TopFivePosts,
+    ChatPanel
   },
   data: () => {
     return {
@@ -142,7 +146,9 @@ export default {
       console.log('getPosts')
     }
   },
-  created: (()=> {
+  created() {
+    
+      
     // let data = {
     //   _from: 'MENU_01'
     // }
@@ -154,9 +160,10 @@ export default {
     //   .catch((e) => {
     //     console.log('err', e)
     //   })
-  })
+  }
 }
 </script>
-<style>
+<style scoped>
+
 </style>
 
