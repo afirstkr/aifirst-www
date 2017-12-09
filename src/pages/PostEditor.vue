@@ -2,7 +2,6 @@
   #wrapper
     #page-wrapper.gray-bg
       main-header
-
       .row.wrapper.border-bottom.white-bg.page-heading
         .col-lg-12
           ol.breadcrumb(style='margin-top: 18px;')
@@ -17,19 +16,21 @@
           .col-lg-offset-1.col-lg-10.editor
             .ibox.float-e-margins
               .ibox-title
-                input.form-control(type='text', placeholder='제목을 넣어주세요.' style='border: 0px;')
+                input.form-control(type='text', v-model='post.title' placeholder='제목을 넣어주세요.' style='border: 0px;')
               .ibox-content.no-padding
-                <vue-editor id='editor' useCustomImageHandler placeholder='Type...' v-model='htmlForEditor' @imageAdded="handleImageAdded"></vue-editor>
+                <vue-editor id='editor' v-model='post.html' @imageAdded="handleImageAdded" useCustomImageHandler placeholder='Type...'></vue-editor>
         .row(style='margin-top: 20px;')
           .col-lg-offset-4.col-lg-2
             button.btn.btn-lg.btn-default.full-width.m-b(type='submit') 임시저장
           .col-lg-2
-            button.btn.btn-lg.btn-primary.full-width.m-b(type='submit') 등록
+            button.btn.btn-lg.btn-primary.full-width.m-b(type='submit', @click='save(post)') 등록
 </template>
 
 <script>
-
+import Vue from 'vue'
 import MainHeader from '@/components/MainHeader'
+import store from '@/store'
+import firebase from 'firebase'
 
 //https://github.com/davidroyer/vue2-editor
 import { VueEditor } from 'vue2-editor' 
@@ -42,12 +43,40 @@ export default {
   },
   data: (() => {
     return {
-      title: 'PostEditor',
-      htmlForEditor: null
+      account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account,
+      channel: null,
+      post: {
+        title: null,
+        html: null
+      },
+      postRef: null
     }
   }),
   methods: {
-    handleImageAdded: (file, Editor, cursorLocation) => {
+    save(post) {
+      if(!post.title) return
+      if(!post.html) return
+
+      const vm = this
+      this.postRef
+        .add({
+          channel: this.channel,
+          id: Date.now(),
+          displayName: this.account.displayName,
+          email: this.account.email,
+          title: post.title,
+          html: post.html,
+          createdAt: Date.now()
+        })
+        .then(function () {
+          Vue.router.push({path: `/${vm.channel}/posts`})
+        })
+        .catch(function (err) {
+          console.error('Error adding document: ', err)
+        })
+
+    },
+    handleImageAdded(file, Editor, cursorLocation) {
       console.log('file', file)
       console.log('Editor', Editor)
       console.log('cursorLocation', cursorLocation)
@@ -69,6 +98,10 @@ export default {
       // })
 
     }
+  },
+  mounted() {
+    this.channel = store.state.route.params.channel
+    this.postRef = Vue.$db.collection(`aifirst/${this.channel}/posts`)
   }
 }
 

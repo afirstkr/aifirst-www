@@ -56,12 +56,7 @@ export default [
     component: Post
   },
   {
-    path: '/:channel/posts',
-    name: 'postList',
-    component: PostList
-  },
-  {
-    path: '/post/edit',
+    path: '/:channel/post/edit',
     name: 'PostEditor',
     component: PostEditor,
 
@@ -77,5 +72,14 @@ export default [
     meta: {
       guest: true,
     },
+  },
+  {
+    path: '/:channel/posts',
+    name: 'postList',
+    component: PostList
+  },
+  {
+    path: '/*',
+    redirect: '/',
   }
 ]

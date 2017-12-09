@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
      * a page that requires authentication, redirect to the login page
      */
     next({
-      name: 'Login',
+      name: 'login',
     });
   } else if (to.matched.some(m => m.meta.guest) && store.state.auth.authenticated) {
     /*
@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
      * an guest page, redirect to the dashboard page
      */
     next({
-      name: 'Main',
+      name: 'main',
     });
   } else {
     next();

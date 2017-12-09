@@ -4,7 +4,7 @@
       .heading(draggable='true')
         small.chat-date.pull-right
           | {{account.displayName}}
-        |                 {{category}}
+        |                 {{channel}}
       .content(v-chat-scroll="{always: false}")
         div(v-for='chat in chatList', :key='chat.id')
           .left(v-if="!isMe(chat.email)", :id='chat.id')
@@ -44,24 +44,25 @@ Vue.use(VueChatScroll)
 let unsubscribe;
 export default {
   name: 'ChatPanel',
+  props: ['channel'],
   data: (() => {
     return {
-      category: store.state.route.path,
       authenticated: store.state.auth.authenticated,
       account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account,
       isActive: false,
-      chatRef: Vue.$db.collection(`chat${store.state.route.path}`),
+      chatRef: Vue.$db.collection(`aifirst/${this.channel}/chats`),
       chatList: [],
       text: ''
     }
   }),
   watch: {
     '$route' (to, from){
-      this.category = to.path
-      this.chatRef = Vue.$db.collection(`chat${to.path}`)
-
       const vm = this
-      if(unsubscribe) unsubscribe()
+      this.chatRef = Vue.$db.collection(`aifirst/${this.channel}/chats`)
+      if(unsubscribe) {
+        unsubscribe()
+        unsubscribe = null
+      }
       unsubscribe = this.chatRef
         .orderBy('createdAt', 'desc').limit(50)
         .onSnapshot(function (querySnapshot) {
@@ -70,7 +71,7 @@ export default {
           querySnapshot.forEach(function (doc) {
             if(!lastId) lastId = doc.data().id
             vm.chatList.unshift(doc.data())
-          })
+          })        
           const bottom = $('.small-chat-box .content').prop('scrollHeight')
           $('.sscroll').slimScroll({scrollTo: bottom})
         })
@@ -79,7 +80,11 @@ export default {
   mounted() {
     initWidgets()
     const vm = this
-    if(unsubscribe) unsubscribe()
+    this.chatRef = Vue.$db.collection(`aifirst/${this.channel}/chats`)
+    if(unsubscribe) {
+      unsubscribe()
+      unsubscribe = null
+    }
     unsubscribe = this.chatRef
       .orderBy('createdAt', 'desc').limit(50)
       .onSnapshot(function (querySnapshot) {
@@ -99,11 +104,9 @@ export default {
       else return false
     },
     sendMessage(text) {
-      console.log('store.state.route', store.state.route)
       if(!text) return
-      
       this.chatRef.add({
-        category: this.category,
+        channel: this.channel,
         id: Date.now(),
         displayName: this.account.displayName,
         email: this.account.email,

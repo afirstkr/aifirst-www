@@ -39,9 +39,9 @@
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                a(href='academy_list.html') 강좌목록
+                router-link(to='/lecture/posts') 강좌목록
               li
-                a(href='academy_list.html') 협회자료
+                router-link(to='/ref/posts') 협회자료
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
               span  마켓 
@@ -133,7 +133,7 @@
           
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span {{currentUser.displayName || currentUser.email}} 
+              span {{account.displayName || account.email}} 
               span.caret
             ul.dropdown-menu(role='menu')
               li
@@ -160,9 +160,8 @@ export default {
   name: 'MainHeader',
   data: (() => {
     return {
-      currentUser: firebase.auth().currentUser,
       authenticated: store.state.auth.authenticated,
-      account: store.state.account
+      account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account
     }
   }),
   methods: {

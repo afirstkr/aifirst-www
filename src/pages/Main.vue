@@ -32,7 +32,7 @@
           a(href='http://koraia.org', target='_blank', style='color:white;') © 2017 KORAIA All rights reserved.
       //- right-sidebar
 
-      chat-panel
+      chat-panel( channel='main' )
 
 </template>
 
@@ -46,6 +46,8 @@ import RightSidebar from '@/components/RightSidebar'
 import TopFivePosts from '@/components/TopFivePosts'
 import ChatPanel from '@/components/ChatPanel'
 
+import store from '@/store'
+
 export default {
   name: 'Main',
   components: {
@@ -57,6 +59,7 @@ export default {
   },
   data: () => {
     return {
+      channel: store.state.route.path,
       contact: '문의메일 - koraiaoffice@gmail.com',
       posts: [],
       freeBoard: {

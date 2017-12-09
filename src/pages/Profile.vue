@@ -2,15 +2,14 @@
   #wrapper
     #page-wrapper.gray-bg
       main-header
-
       .row.wrapper.border-bottom.white-bg.page-heading
         .col-lg-12
           ol.breadcrumb(style='margin-top: 18px;')
-            h1 강의자료
+            h1 프로필
             li
-              a(href='index.html') 아카데미
+              router-link(to='/') 프로필
             li.active
-              strong 강의자료
+              strong {{account.displayName || account.email}}
 
       .wrapper.wrapper-content.animated.fadeInRight
         .row.animated.fadeInRight
@@ -78,6 +77,8 @@
 <script>
 
 import MainHeader from '@/components/MainHeader'
+import firebase from 'firebase'
+import store from '@/store'
 
 export default {
   name: 'Profile',
@@ -86,6 +87,7 @@ export default {
   },
   data: (() => {
     return {
+      account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account,
       title: 'Profile'
     }
   })
