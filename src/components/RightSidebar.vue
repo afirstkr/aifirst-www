@@ -252,16 +252,17 @@
 
 </template>
 
-<script>
+<script lang="coffee">
+################################################
+# coffee 
+################################################
 
-export default {
-  name: 'RightSidebar',
-  data: (() => {
-    return {
-      pageTitle: 'RightSidebar'
-    }
-  })
-}
+export default
+  name: 'RightSidebar'
+  data: () ->
+    pageTitle: 'RightSidebar'
+
+################################################
 </script>
 
 

@@ -33,105 +33,98 @@
         i.fa( :class="{'fa-comments': !isActive, 'fa-remove': isActive}" ) 
 </template>
 
-<script>
+<script lang="coffee">
+################################################
+# coffee 
+################################################
 import Vue from 'vue'
 import VueChatScroll from 'vue-chat-scroll'
-import store from '@/store';
+import store from '@/store'
 import firebase from 'firebase'
 
 Vue.use(VueChatScroll)
 
-let unsubscribe;
-export default {
-  name: 'ChatPanel',
-  props: ['channel'],
-  data: (() => {
-    return {
-      authenticated: store.state.auth.authenticated,
-      account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account,
-      isActive: false,
-      chatRef: Vue.$db.collection(`aifirst/${this.channel}/chats`),
-      chatList: [],
-      text: ''
-    }
-  }),
-  watch: {
-    '$route' (to, from){
-      const vm = this
-      this.chatRef = Vue.$db.collection(`aifirst/${this.channel}/chats`)
-      if(unsubscribe) {
+unsubscribe = null
+export default
+  name: 'ChatPanel'
+  props: ['channel']
+  data: () ->
+    authenticated: store.state.auth.authenticated
+    account: if firebase.auth().currentUser then firebase.auth().currentUser else store.state.account
+    isActive: false
+    chatRef: Vue.$db.collection("aifirst/#{this.channel}/chats")
+    chatList: []
+    text: ''
+  watch:
+    "$route": (to, from) ->
+      vm = @
+      this.chatRef = Vue.$db.collection("aifirst/#{this.channel}/chats")
+      if(unsubscribe)
         unsubscribe()
         unsubscribe = null
-      }
+      
       unsubscribe = this.chatRef
         .orderBy('createdAt', 'desc').limit(50)
-        .onSnapshot(function (querySnapshot) {
-          let lastId = ''
+        .onSnapshot (querySnapshot) ->
+          lastId = ''
           vm.chatList = []
-          querySnapshot.forEach(function (doc) {
-            if(!lastId) lastId = doc.data().id
+          querySnapshot.forEach (doc) ->
+            unless lastId then lastId = doc.data().id
             vm.chatList.unshift(doc.data())
-          })        
-          const bottom = $('.small-chat-box .content').prop('scrollHeight')
-          $('.sscroll').slimScroll({scrollTo: bottom})
-        })
-    }
-  },
-  mounted() {
+          bottom = $('.small-chat-box .content').prop('scrollHeight')
+          $('.sscroll').slimScroll { scrollTo: bottom }
+
+
+  mounted: () ->
     initWidgets()
-    const vm = this
-    this.chatRef = Vue.$db.collection(`aifirst/${this.channel}/chats`)
-    if(unsubscribe) {
+    vm = this
+    this.chatRef = Vue.$db.collection("aifirst/#{this.channel}/chats")
+    if(unsubscribe)
       unsubscribe()
       unsubscribe = null
-    }
+
     unsubscribe = this.chatRef
       .orderBy('createdAt', 'desc').limit(50)
-      .onSnapshot(function (querySnapshot) {
-        let lastId = ''
+      .onSnapshot (querySnapshot) ->
+        lastId = ''
         vm.chatList = []
-        querySnapshot.forEach(function (doc) {
-          if(!lastId) lastId = doc.data().id
+        querySnapshot.forEach((doc) ->
+          unless lastId then lastId = doc.data().id
           vm.chatList.unshift(doc.data())
-        })        
-        const bottom = $('.small-chat-box .content').prop('scrollHeight')
-        $('.sscroll').slimScroll({scrollTo: bottom})
-      })
-  },
-  methods: {
-    isMe(email) {
-      if(email === this.account.email) return true
+        )        
+        bottom = $('.small-chat-box .content').prop('scrollHeight')
+        $('.sscroll').slimScroll { scrollTo: bottom }
+  
+  methods:
+    isMe: (email) ->
+      if(email is this.account.email) then return true 
       else return false
-    },
-    sendMessage(text) {
-      if(!text) return
+    sendMessage: (text) ->
+      unless text then return
       this.chatRef.add({
-        channel: this.channel,
-        id: Date.now(),
-        displayName: this.account.displayName,
-        email: this.account.email,
-        text: text,
+        channel: this.channel
+        id: Date.now()
+        displayName: this.account.displayName
+        email: this.account.email
+        text: text
         createdAt: Date.now()
       })
-      .then(function () {
+      .then(() ->
         console.log('success: ')
         text = ''
-      })
-      .catch(function (err) {
+      )
+      .catch((err) ->
         console.error('Error adding document: ', err)
-      })
-    }
-  }
-}
+      )
 
-function initWidgets() {
-  // Initialize slimscroll for small chat
+initWidgets = () ->
   $('.small-chat-box .content').slimScroll({
     height: '414px',
     railOpacity: 0.4,
     start: 'bottom'
-  });
-}
+  })
+
+################################################
 </script>
 
 <style scoped>

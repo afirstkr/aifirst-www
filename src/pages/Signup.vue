@@ -30,38 +30,35 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
+
 import Firebase from 'firebase'
 
-export default {
-  name: 'Signup',
-  data: (() => {
-    return {
-      user: {
-        displayName: null,
-        email: null,
-        passwordConfirm: null,
-        password: null,
-      },
-      error: null
-    }
-  }),
-  methods: {
-    register: function (user) {
-      if(user.password !== user.passwordConfirm)
+export default
+  name: 'Signup'
+  data: () ->
+    user:
+      displayName: null
+      email: null
+      passwordConfirm: null
+      password: null
+    error: null
+  methods:
+    register: (user) ->
+      if user.password != user.passwordConfirm
         this.error = '비밀번호를 확인해 주세요.'
 
       this.$store
-        .dispatch('auth/register', user)
-        .catch((err) => {
+        .dispatch 'auth/register', user
+        .catch (err) ->
           this.error = err.message
-        })
-    },
-    onKeyup() {
+    onKeyup: () ->
       this.error = null
-    }
-  }
-}
+
+################################################
 </script>
 
 <style scoped>

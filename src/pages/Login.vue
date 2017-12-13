@@ -22,32 +22,28 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
 
-export default {
-  name: 'Login',
-  data: (() => {
-    return {
-      user: {
-        email: null,
-        password: null,
-      },
-      error: null
-    }
-  }),
-  methods: {
-    login(user) {
+export default
+  name: 'Login'
+  data: () ->
+    user:
+      email: null
+      password: null
+    error: null
+  methods:
+    login: (user) ->
       this.$store
-        .dispatch('auth/login', user)
-        .catch((err) => {
+        .dispatch 'auth/login', user
+        .catch (err) ->
           this.error = err.message
-        })
-    },
-    onKeyup() {
+    onKeyup: () ->
       this.error = null
-    }
-  }
-}
+
+################################################
 </script>
 
 

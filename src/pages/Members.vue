@@ -66,23 +66,20 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
 
 import MainHeader from '@/components/MainHeader'
 import ChatPanel from '@/components/ChatPanel'
 
-export default {
-  name: 'Members',
-  components: {
-    MainHeader,
-    ChatPanel
-  },
-  data: (() => {
-    return {
-      title: 'Members'
-    }
-  })
-}
+export default
+  name: 'Members'
+  components: { MainHeader, ChatPanel }
+  data: () -> title: 'Members'
+
+################################################
 </script>
 
 

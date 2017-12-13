@@ -24,14 +24,14 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
 
-export default {
-  name: 'ForgotPassword',
-  data: (() => {
-    return {
-      pageTitle: 'ForgotPassword'
-    }
-  })
-}
+export default
+  name: 'ForgotPassword'
+  data: () -> pageTitle: 'ForgotPassword'
+
+################################################
 </script>

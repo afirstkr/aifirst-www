@@ -10,15 +10,16 @@
         p  {{post.title}}
 </template>
 
-<script>
+<script lang="coffee">
+################################################
+# coffee 
+################################################
 
-export default {
-  name: 'TopFivePosts',
-  props: ['board'],
-  data: (() => {
-    return {
-      hello: 'world',
-    }
-  })
-}
+export default
+  name: 'TopFivePosts'
+  props: ['board']
+  data: () ->
+    hello: 'world',
+
+################################################
 </script>

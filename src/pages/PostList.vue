@@ -49,67 +49,60 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
+
 import Vue from 'vue'
 import MainHeader from '@/components/MainHeader'
 import ChatPanel from '@/components/ChatPanel'
-import store from '@/store';
+import store from '@/store'
 import firebase from 'firebase'
 
 import 'vue-moment'
 
-let unsubscribe = null
-
-export default {
-  name: 'PostList',
-  components: {
-    MainHeader,
-    ChatPanel
-  },
-  data: (() => {
-    return {
-      channel: store.state.route.params.channel,
-      postRef: null,
-      postList: []
-    }
-  }),
-  watch: {
-    '$route' (to, from){
-      const vm = this
+unsubscribe = null
+export default
+  name: 'PostList'
+  components: { MainHeader, ChatPanel }
+  data: () ->
+    channel: store.state.route.params.channel
+    postRef: null
+    postList: []
+  watch:
+    "$route": (to, from) ->
+      vm = this
       this.channel = store.state.route.params.channel
-      this.postRef = Vue.$db.collection(`aifirst/${this.channel}/posts`)
-      if(unsubscribe) {
+      this.postRef = Vue.$db.collection("aifirst/#{this.channel}/posts")
+      
+      if(unsubscribe)
         unsubscribe()
         unsubscribe = null
-      }
+      
       unsubscribe = this.postRef
         .orderBy('createdAt').limit(50)
-        .onSnapshot(function (querySnapshot) {
+        .onSnapshot (querySnapshot) ->
           vm.postList = []
-          querySnapshot.forEach(function (doc) {
-            vm.postList.unshift(doc.data())
-          })
-        })
-    }
-  },
-  mounted() {
-    const vm = this
-    this.postRef = Vue.$db.collection(`aifirst/${this.channel}/posts`)
+          querySnapshot.forEach (doc) ->
+            vm.postList.unshift doc.data()
+  
+  mounted: () ->
+    vm = this
+    this.postRef = Vue.$db.collection("aifirst/#{this.channel}/posts")
 
-    if(unsubscribe) {
+    if(unsubscribe)
       unsubscribe()
       unsubscribe = null
-    }
+
     unsubscribe = this.postRef
       .orderBy('createdAt').limit(50)
-      .onSnapshot(function (querySnapshot) {
+      .onSnapshot (querySnapshot) ->
         vm.postList = []
-        querySnapshot.forEach(function (doc) {
-          vm.postList.unshift(doc.data())
-        })
-      })
-  }
-}
+        querySnapshot.forEach (doc) ->
+          vm.postList.unshift doc.data()
+
+################################################
 </script>
 
 

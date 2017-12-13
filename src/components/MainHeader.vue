@@ -152,24 +152,23 @@
 
 </template>
 
-<script>
-import store from '@/store';
+<script lang="coffee">
+################################################
+# coffee 
+################################################
+import store from '@/store'
 import firebase from 'firebase'
 
-export default {
-  name: 'MainHeader',
-  data: (() => {
-    return {
-      authenticated: store.state.auth.authenticated,
-      account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account
-    }
-  }),
-  methods: {
-    logout() {
-      this.$store.dispatch('auth/logout');
-    },
-  }
-}
+export default
+  name: 'MainHeader'
+  data: () ->
+    authenticated: store.state.auth.authenticated
+    account: if firebase.auth().currentUser then firebase.auth().currentUser else store.state.account
+  methods:
+    logout: () ->
+      this.$store.dispatch('auth/logout')
+
+################################################
 </script>
 
 

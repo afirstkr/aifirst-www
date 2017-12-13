@@ -80,21 +80,19 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
 
 import MainHeader from '@/components/MainHeader'
 
-export default {
-  name: 'Post',
-  components: {
-    MainHeader
-  },
-  data: (() => {
-    return {
-      title: '기계 학습(Machine Learning, 머신 러닝)은 즐겁다!'
-    }
-  })
-}
+export default
+  name: 'Post'
+  components: { MainHeader }
+  data: () -> title: '기계 학습(Machine Learning, 머신 러닝)은 즐겁다!'
+
+################################################
 </script>
 
 

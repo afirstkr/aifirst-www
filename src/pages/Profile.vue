@@ -74,24 +74,23 @@
 
 </template>
 
-<script>
+<script lang='coffee'>
+################################################
+# coffee 
+################################################
 
 import MainHeader from '@/components/MainHeader'
 import firebase from 'firebase'
 import store from '@/store'
 
-export default {
-  name: 'Profile',
-  components: {
-    MainHeader
-  },
-  data: (() => {
-    return {
-      account: firebase.auth().currentUser ? firebase.auth().currentUser : store.state.account,
-      title: 'Profile'
-    }
-  })
-}
+export default
+  name: 'Profile'
+  components: { MainHeader }
+  data: () ->
+    account: if firebase.auth().currentUser then firebase.auth().currentUser else store.state.account
+    title: 'Profile'
+
+################################################
 </script>
 
 
