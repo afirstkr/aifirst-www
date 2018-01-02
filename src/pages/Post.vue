@@ -95,10 +95,23 @@ export default
       if this.post.tag then this.post.tag.split(',')
     channelName: ->
       switch this.channelID
-        when 'free' then '자유게시판'
-        when 'moim' then '소모임'
-        when 'issue' then '이슈토론방'
-        when 'paper' then '논문자료실'
+        when 'free'     then '자유게시판'
+        when 'parents'  then '학부모 게시판'
+        when 'workers'  then '직장인 게시판'
+        when 'college'  then '대학생 게시판'
+        when 'students' then '초중고 게시판'
+        when 'study'    then '스터디 게시판'
+        when 'lab'      then '온라인연구소'
+        when 'academy'  then '학회&컨퍼런스'
+        when 'expo'     then '엑스포'
+        when 'seminar'  then '세미나'
+        when 'recruit'  then '구인 게시판'
+        when 'job'      then '구직 게시판'
+        when 'project'  then '프로젝트'
+        when 'trend'    then '인공지능 트랜드'
+        when 'review'   then '인공지능 리뷰'
+        when 'expert'   then '전문가'
+        when 'company'  then '회사'
         else '게시판'
   methods:
     transDate: (date) ->

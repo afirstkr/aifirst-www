@@ -13,83 +13,62 @@
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                router-link(to='/free/posts') 자유게시판
+                router-link(to='/free/posts') 자유 게시판
               li
-                router-link(to='/moim/posts') 소모임
+                router-link(to='/parents/posts') 학부모 게시판
               li
-                router-link(to='/issue/posts') 이슈토론방
+                router-link(to='/workers/posts') 직장인 게시판
               li
-                router-link(to='/paper/posts') 논문자료실
+                router-link(to='/college/posts') 대학생 게시판
+              li
+                router-link(to='/students/posts') 초중고 게시판
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  포럼 
+              span  소모임
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                router-link(to='/company/posts') 기업
+                router-link(to='/study/posts') 스터디모임
               li
-                router-link(to='/school/posts') 학교
-              li
-                router-link(to='/lab/posts') 연구소
-              li
-                router-link(to='/community/posts') 온라인커뮤니티
-          li.dropdown
-            a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  아카데미 
-              span.caret
-            ul.dropdown-menu(role='menu')
-              li
-                router-link(to='/lecture/posts') 강좌목록
-              li
-                router-link(to='/ref/posts') 협회자료
-          li.dropdown
-            a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  마켓 
-              span.caret
-            ul.dropdown-menu(role='menu')
-              li
-                router-link(to='/sell/posts') 팝니다
-              li
-                router-link(to='/buy/posts') 삽니다
-              li
-                router-link(to='/hr/posts') 구인구직
-              li
-                router-link(to='/project/posts') 프로젝트
+                router-link(to='/lab/posts') 온라인연구소
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
               span  이벤트 
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                router-link(to='/study/posts') 스터디모임
-              li
-                router-link(to='/seminar/posts') 세미나
-              li
-                router-link(to='/conf/posts') 컨퍼런스
+                router-link(to='/academy/posts') 학회 & 컨퍼런스
               li
                 router-link(to='/expo/posts') 엑스포
+              li
+                router-link(to='/seminar/posts') 세미나
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  컨소시엄 
+              span  구인구직
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                router-link(to='/gov/posts') 정부사업공고
+                router-link(to='/recruit/posts') 구인
               li
-                router-link(to='/rnd/posts') R&D사업제안
+                router-link(to='/job/posts') 구직
               li
-                router-link(to='/partner/posts') 참여사목록
-              li
-                router-link(to='/export/posts') 전문가목록
-              li
-                router-link(to='/qna/posts') Q&A
+                router-link(to='/project/posts') 프로젝트
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span  회원 
+              span  월간 인공지능 
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                router-link(to='/members') 전문가
+                router-link(to='/trend/posts') 인공지능 트랜드
+              li
+                router-link(to='/review/posts') 인공지능 리뷰
+          li.dropdown
+            a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
+              span  스타트업
+              span.caret
+            ul.dropdown-menu(role='menu')
+              li
+                router-link(to='/expert/posts') 전문가
               li
                 router-link(to='/members') 기업
 

@@ -8,22 +8,22 @@
             .col-md-6
               top-five-posts(channelID='free', title='자유게시판')
             .col-md-6
-              top-five-posts(channelID='moim', title='소모임')
+              top-five-posts(channelID='study', title='스터디모임')
           .row
             .col-md-6
-              top-five-posts(channelID='issue', title='이슈토론방')
+              top-five-posts(channelID='seminar', title='세미나')
             .col-md-6
-              top-five-posts(channelID='paper', title='논문자료실')
+              top-five-posts(channelID='recruit', title='구인')
           .row
             .col-md-6
-              top-dummy-five-posts(:board="govBoard")
+              top-five-posts(channelID='project', title='프로젝트')
             .col-md-6
-              top-dummy-five-posts(:board="rndBoard")
+              top-five-posts(channelID='trend', title='인공지능 트랜드')
           .row
             .col-md-6
-              top-dummy-five-posts(:board="forumBoard")
+              top-five-posts(channelID='review', title='인공지능 리뷰')
             .col-md-6
-              top-dummy-five-posts(:board="academyBoard")
+              top-five-posts(channelID='expert', title='전문가')
       .footer.footer-main
         .pull-right
           | {{contact}}
