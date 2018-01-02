@@ -5,11 +5,12 @@
       .row.wrapper.border-bottom.white-bg.page-heading
         .col-lg-12
           ol.breadcrumb(style='margin-top: 18px;')
-            h1 {{channel}}
+            h1
+              router-link(:to="{ name: 'postList', params: { channelID: channelID } }") {{channelName}}
             li
-              router-link(to='/') 게시판
+              router-link(:to="{ name: 'postList', params: { channelID: channelID } }") 게시판
             li.active
-              strong {{channel}}
+              strong {{channelID}}
 
       .wrapper.wrapper-content.animated.fadeInRight
         .row
@@ -27,25 +28,35 @@
                         th 제목
                         th 작성자
                         th 시간
+                        th 댓글수
                         th 조회수
-                        th 추천수
                     tbody
                       tr( v-for="post in postList" :key="post.id")
                         td
-                          span {{post.id}}
-                        td
-                          a(href='#') 
+                          span {{post.postID}}
+                        td(width='60%')
+                          router-link(:to="{ name: 'post', params: { channelID: channelID, postID: post.postID }}").link-panel
                             | {{post.title}}
                         td
-                          | {{post.displayName}}
+                          | {{post.userName}}
                         td
-                          | <span>{{post.createdAt}}</span>
+                          //- | <span>{{post.createdAt | moment('timezone', 'Asia/Tokyo', 'from')}}</span>
+                          | <span>{{transDate(post.createdAt)}}</span>
                         td
-                          span 100
+                          span {{post.replies}}
                         td
-                          span 100
+                          span {{post.views}}
+                  .dataTables_paginate.paging_simple_numbers
+                    ul.pagination
+                      li.paginate_button.previous(:class="{disabled: !isPrevBtnActive}" @click="getListByPage(meta.page - 1)")
+                        a Previous
+                      li.paginate_button(v-for="idx in meta.pages", :class="{active: idx==meta.page}" @click="getListByPage(idx)")
+                        a {{idx}}
+                      li.paginate_button.next(:class="{disabled: !isNextBtnActive}" @click="getListByPage(meta.page + 1)")
+                        a Next
+
     
-    chat-panel( :channel="channel")
+    chat-panel( :channel="channelID")
 
 </template>
 
@@ -57,57 +68,88 @@
 import Vue from 'vue'
 import MainHeader from '@/components/MainHeader'
 import ChatPanel from '@/components/ChatPanel'
-import store from '@/store'
-import firebase from 'firebase'
+import shared from '@/shared'
+import moment from 'moment-timezone'
 
-import 'vue-moment'
-
-unsubscribe = null
 export default
   name: 'PostList'
   components: { MainHeader, ChatPanel }
   data: () ->
-    channel: store.state.route.params.channel
-    postRef: null
+    channelID: this.$route.params.channelID
+    meta: 
+      offset: 0
+      page: 0
+      pages: 0
+      size: 0
+      total: 0
     postList: []
+    shared: shared.state
+  computed:
+    isPrevBtnActive: ->
+      this.meta.page > 1
+    isNextBtnActive: ->
+      this.meta.page < this.meta.pages
+    channelName: ->
+      switch this.channelID
+        when 'free' then '자유게시판'
+        when 'moim' then '소모임'
+        when 'issue' then '이슈토론방'
+        when 'paper' then '논문자료실'
+        else '게시판'
+
   watch:
     "$route": (to, from) ->
-      vm = this
-      this.channel = store.state.route.params.channel
-      this.postRef = Vue.$db.collection("aifirst/#{this.channel}/posts")
+      this.channelID    = this.$route.params.channelID
+      this.meta         = { page: 1, size: 10 }
       
-      if(unsubscribe)
-        unsubscribe()
-        unsubscribe = null
+      query = {}
+      query.preset      = 'DEFAULT'
+      query.page        = this.meta.page
+      query.size        = this.meta.size
       
-      unsubscribe = this.postRef
-        .orderBy('createdAt').limit(50)
-        .onSnapshot (querySnapshot) ->
-          vm.postList = []
-          querySnapshot.forEach (doc) ->
-            vm.postList.unshift doc.data()
-  
+      response          = await shared.getPostList(this.channelID, query)
+      this.meta         = response.data.meta
+      this.postList     = response.data.data
+  methods:
+    transDate: (date) ->
+      moment.tz(date, "Etc/GMT-9").format("HH:mm")
+    getListByPage: (page) ->
+      if page < 1 or page > this.meta.pages then return null
+
+      this.meta.page    = page
+      
+      query = {}
+      query.preset      = 'DEFAULT'
+      query.page        = this.meta.page
+      query.size        = this.meta.size
+      
+      response          = await shared.getPostList(this.channelID, query)
+      this.meta         = response.data.meta
+      this.postList     = response.data.data
+
   mounted: () ->
-    vm = this
-    this.postRef = Vue.$db.collection("aifirst/#{this.channel}/posts")
+    this.channelID    = this.$route.params.channelID
+    this.meta         = { page: 1, size: 10 }
 
-    if(unsubscribe)
-      unsubscribe()
-      unsubscribe = null
-
-    unsubscribe = this.postRef
-      .orderBy('createdAt').limit(50)
-      .onSnapshot (querySnapshot) ->
-        vm.postList = []
-        querySnapshot.forEach (doc) ->
-          vm.postList.unshift doc.data()
-
+    query = {}
+    query.preset      = 'DEFAULT'
+    query.page        = this.meta.page
+    query.size        = this.meta.size
+    
+    response          = await shared.getPostList(this.channelID, query)
+    this.meta         = response.data.meta
+    this.postList     = response.data.data
+    
 ################################################
 </script>
 
 
 <style>
 
+.link-panel {
+  display:block;
+  width: 100%;
+}
 .table-post-list td, .table-post-list th{
   padding: 12px !important;
 }

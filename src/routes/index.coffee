@@ -13,14 +13,14 @@ import PostEditor from '@/pages/PostEditor'
 import ForgotPassword from '@/pages/ForgotPassword'
 
 export default [
-  { path: '/',        name: 'home', component: Home }
-  { path: '/login',   name: 'login', component: Login, meta: guest: true }
-  { path: '/signup',  name: 'signup', component: Signup, meta: guest: true }
-  { path: '/members', name: 'members', component: Members }
-  { path: '/profile', name: 'profile', component: Profile, meta: auth: true }
-  { path: '/post',    name: 'post', component: Post }
-  { path: '/:channel/post/edit',  name: 'PostEditor', component: PostEditor, meta: auth: true }
-  { path: '/forgot_password',     name: 'ForgotPassword', component: ForgotPassword, meta: guest: true }
-  { path: '/:channel/posts',      name: 'postList', component: PostList }
+  { path: '/',                      name: 'home', component: Home }
+  { path: '/login',                 name: 'login', component: Login, meta: guest: true }
+  { path: '/signup',                name: 'signup', component: Signup, meta: guest: true }
+  { path: '/members',               name: 'members', component: Members }
+  { path: '/profile',               name: 'profile', component: Profile, meta: auth: true }
+  { path: '/forgot_password',       name: 'ForgotPassword', component: ForgotPassword, meta: guest: true }
+  { path: '/:channelID/post/edit',  name: 'PostEditor', component: PostEditor, meta: auth: true }
+  { path: '/:channelID/posts',      name: 'postList', component: PostList }
+  { path: '/:channelID/:postID',    name: 'post', component: Post }
   { path: '/*', redirect: '/' }
 ]

@@ -6,11 +6,11 @@
           div
             router-link(to="/")
               h1.logo-name(style='font-size: 100px;') AI First
-          form.m-t(role='form', @submit.prevent='login(user)')
+          form.m-t(role='form', @submit.prevent='login(loginUser)', @keyup='onKeyup()')
             .form-group
-              input.form-control(type='email', v-model='user.email', @keyup='onKeyup()', placeholder='Username', required='')
+              input.form-control(type='email', v-model='loginUser.email', placeholder='Username', required='')
             .form-group
-              input.form-control(type='password', v-model='user.password', @keyup='onKeyup()', placeholder='Password', required='')
+              input.form-control(type='password', v-model='loginUser.password', placeholder='Password', required='')
             .error
               p {{error}}
             button.btn.btn-lg.btn-primary.full-width.m-b(type='submit') 로그인
@@ -19,29 +19,32 @@
             p.text-muted.text-center
               small Do not have an account?
             router-link.btn.btn-sm.btn-white.btn-block(to="/signup") 회원가입
-
 </template>
 
 <script lang='coffee'>
 ################################################
 # coffee 
 ################################################
+import Vue from 'vue'
+import Axios from 'axios'
+import shared from '@/shared'
 
 export default
   name: 'Login'
   data: () ->
-    user:
-      email: null
-      password: null
+    loginUser:
+      email: 'unamedkr@gmail.com'
+      password: '111111'
     error: null
+    shared: shared.state
   methods:
-    login: (user) ->
-      this.$store
-        .dispatch 'auth/login', user
-        .catch (err) ->
-          this.error = err.message
+    login: (loginUser) ->
+      shared.login(loginUser, 'home')
     onKeyup: () ->
       this.error = null
+  mounted: () ->
+    localStorage.getItem 'from.path'
+
 
 ################################################
 </script>

@@ -3,7 +3,17 @@ import Vue from 'vue'
 import Axios from 'axios'
 
 Axios.defaults.baseURL = process.env.API_LOCATION
+console.log 'Axios.defaults.baseURL', Axios.defaults.baseURL
 Axios.defaults.headers.common.Accept = 'application/json'
+
+Axios.interceptors.request.use(
+  (config) ->
+    token = localStorage.getItem 'token'
+    if token
+      config.headers.Authorization = "Bearer #{token}"
+    config
+)
+
 Axios.interceptors.response.use(
   (response) -> response
   (error) ->

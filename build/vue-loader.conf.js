@@ -11,13 +11,13 @@ const loaders = utils.cssLoaders({
   extract: isProduction
 })
 
-loaders.coffee = {
-  loader: 'coffee-loader',
-  options: {
-    sourceMap: true,
-    transpile: { presets: ['env'] }
-  }
-}
+// loaders.coffee = {
+//   loader: 'coffee-loader',
+//   options: {
+//     sourceMap: true,
+//     transpile: { presets: ['env'] }
+//   }
+// }
 
 module.exports = {
   loaders: loaders,

@@ -6,25 +6,24 @@
         .container
           .row
             .col-md-6
-              top-five-posts(:board="freeBoard")
+              top-five-posts(channelID='free', title='자유게시판')
             .col-md-6
-              top-five-posts(:board="issueBoard")
+              top-five-posts(channelID='moim', title='소모임')
           .row
             .col-md-6
-              top-five-posts(:board="tradeBoard")
+              top-five-posts(channelID='issue', title='이슈토론방')
             .col-md-6
-              top-five-posts(:board="hrBoard")
+              top-five-posts(channelID='paper', title='논문자료실')
           .row
             .col-md-6
-              top-five-posts(:board="govBoard")
+              top-dummy-five-posts(:board="govBoard")
             .col-md-6
-              top-five-posts(:board="rndBoard")
+              top-dummy-five-posts(:board="rndBoard")
           .row
             .col-md-6
-              top-five-posts(:board="forumBoard")
+              top-dummy-five-posts(:board="forumBoard")
             .col-md-6
-              top-five-posts(:board="academyBoard")
-
+              top-dummy-five-posts(:board="academyBoard")
       .footer.footer-main
         .pull-right
           | {{contact}}
@@ -43,18 +42,27 @@
 ################################################
 
 import Vue from 'vue'
+import Axios from 'axios'
+import shared from '@/shared'
+
 import Login from '@/pages/Login'
 import MainHeader from '@/components/MainHeader'
 import RightSidebar from '@/components/RightSidebar'
 import TopFivePosts from '@/components/TopFivePosts'
+import TopDummyFivePosts from '@/components/TopDummyFivePosts'
 import ChatPanel from '@/components/ChatPanel'
 
 import store from '@/store'
 
+obj =
+  id: 11,
+  name: 'bruce'
+
 export default
   name: 'Home'
-  components: { Login, MainHeader, RightSidebar, TopFivePosts, ChatPanel }
+  components: { Login, MainHeader, RightSidebar, TopFivePosts, TopDummyFivePosts, ChatPanel }
   data: () ->
+    shared: shared.state
     channel: store.state.route.path
     contact: '문의메일 - koraiaoffice@gmail.com'
     posts: []
@@ -133,6 +141,9 @@ export default
   methods:
     getPosts: () ->
       console.log('getPosts')
+
+  mounted: () ->
+    
     
 ################################################
 </script>

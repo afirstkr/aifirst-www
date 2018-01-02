@@ -28,6 +28,9 @@
 ################################################
 # coffee 
 ################################################
+import Vue from 'vue'
+import Axios from 'axios'
+import shared from '@/shared'
 
 export default
   name: 'ForgotPassword'

@@ -12,13 +12,16 @@
 
 import Vue from 'vue'
 import firebase from 'firebase'
+import Axios from 'axios'
+import shared from '@/shared'
 
 export default
   name: 'app'
   data: () ->
-    currentUser: firebase.auth().currentUser
+    me: null
     chatRef: Vue.$db.collection('chat')
-
+  moundted: () ->
+    
 ################################################
 </script>
 

@@ -5,12 +5,14 @@ import Vue from 'vue'
 ###############
 
 import './plugins/vuex'
-import './plugins/axios'
+import './plugins/vue-axios'
 import { i18n } from './plugins/vue-i18n'
 import { router } from './plugins/vue-router'
 import './plugins/vuex-router-sync'
 import './plugins/vue-moment'
 import './plugins/vue-firebase'
+
+import './global'
 
 ###############
 # Main App
@@ -18,20 +20,23 @@ import './plugins/vue-firebase'
 
 import App from './App'
 import store from './store'
-import firebase from 'firebase'
+import shared from '@/shared'
 
 Vue.config.productionTip = false
 
-firebase.auth().onAuthStateChanged (user) ->
-  store.dispatch 'auth/check', user
+token = localStorage.getItem 'token'
+init = ()->
+  await shared.setMe()
   
-  unless @app
-    @app = new Vue({ 
-      el: '#app'
-      i18n, router
-      store
-      template: '<App/>'
-      components: { App } 
-    })
+  new Vue({ 
+    el: '#app'
+    i18n
+    router
+    store
+    template: '<App/>'
+    components: { App } 
+  })
+
+init()
 
 # eslint-disable no-new

@@ -93,47 +93,47 @@
               li
                 router-link(to='/members') 기업
 
-        ul.nav.navbar-top-links.navbar-right(v-if='!authenticated')
+        ul.nav.navbar-top-links.navbar-right(v-if='!shared.me')
           li
             router-link(to='/login') 로그인
 
-        ul.nav.navbar-top-links.navbar-right(v-if='authenticated')
-          li.dropdown
-            a.dropdown-toggle.count-info(data-toggle='dropdown', href='#')
-              i.fa.fa-bell
-              span.label.label-primary 8
-            ul.dropdown-menu.dropdown-alerts
-              li
-                router-link(to='/')
-                  div
-                    i.fa.fa-envelope.fa-fw
-                    |  You have 16 messages
-                    span.pull-right.text-muted.small 4 minutes ago
-              li.divider
-              li
-                router-link(to='/')
-                  div
-                    i.fa.fa-twitter.fa-fw
-                    |  3 New Followers
-                    span.pull-right.text-muted.small 12 minutes ago
-              li.divider
-              li
-                router-link(to='/')
-                  div
-                    i.fa.fa-upload.fa-fw
-                    |  Server Rebooted
-                    span.pull-right.text-muted.small 4 minutes ago
-              li.divider
-              li
-                .text-center.link-block
-                  router-link(to='/')
-                    strong See All Alerts
-                    i.fa.fa-angle-right
+        ul.nav.navbar-top-links.navbar-right(v-if='shared.me')
+          //- li.dropdown
+          //-   a.dropdown-toggle.count-info(data-toggle='dropdown', href='#')
+          //-     i.fa.fa-bell
+          //-     span.label.label-primary 8
+          //-   ul.dropdown-menu.dropdown-alerts
+          //-     li
+          //-       router-link(to='/')
+          //-         div
+          //-           i.fa.fa-envelope.fa-fw
+          //-           |  You have 16 messages
+          //-           span.pull-right.text-muted.small 4 minutes ago
+          //-     li.divider
+          //-     li
+          //-       router-link(to='/')
+          //-         div
+          //-           i.fa.fa-twitter.fa-fw
+          //-           |  3 New Followers
+          //-           span.pull-right.text-muted.small 12 minutes ago
+          //-     li.divider
+          //-     li
+          //-       router-link(to='/')
+          //-         div
+          //-           i.fa.fa-upload.fa-fw
+          //-           |  Server Rebooted
+          //-           span.pull-right.text-muted.small 4 minutes ago
+          //-     li.divider
+          //-     li
+          //-       .text-center.link-block
+          //-         router-link(to='/')
+          //-           strong See All Alerts
+          //-           i.fa.fa-angle-right
 
           
           li.dropdown
             a.dropdown-toggle(aria-expanded='false', role='button', href='post_detail.html', data-toggle='dropdown')
-              span {{account.displayName || account.email}} 
+              span {{shared.me.userName}} 
               span.caret
             ul.dropdown-menu(role='menu')
               li
@@ -145,10 +145,6 @@
               li.divider
               li
                 a(@click='logout()') 로그아웃
-          //- li
-          //-   a.right-sidebar-toggle
-          //-     i.fa.fa-tasks
-
 
 </template>
 
@@ -156,18 +152,19 @@
 ################################################
 # coffee 
 ################################################
-import store from '@/store'
-import firebase from 'firebase'
+import Vue from 'vue'
+import Axios from 'axios'
+import shared from '@/shared'
+
 
 export default
   name: 'MainHeader'
   data: () ->
-    authenticated: store.state.auth.authenticated
-    account: if firebase.auth().currentUser then firebase.auth().currentUser else store.state.account
+    shared: shared.state
   methods:
     logout: () ->
-      this.$store.dispatch('auth/logout')
-
+      shared.logout()
+      
 ################################################
 </script>
 

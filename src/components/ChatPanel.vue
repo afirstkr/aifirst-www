@@ -3,33 +3,33 @@
     .small-chat-box.fadeInRight.animated( :class="{active: isActive}")
       .heading(draggable='true')
         small.chat-date.pull-right
-          | {{account.displayName}}
+          | {{shared.me.userName}}
         |                 {{channel}}
-      .content(v-chat-scroll="{always: false}")
+      .content(v-chat-scroll="{always: true}")
         div(v-for='chat in chatList', :key='chat.id')
           .left(v-if="!isMe(chat.email)", :id='chat.id')
             .author-name
-              | {{chat.displayName}}
+              | {{chat.userName}}
               small.chat-date
-                | {{chat.createdAt}}
+                | {{transDate(chat.createdAt)}}
             .chat-message.active
               | {{chat.text}}
           .right(v-if="isMe(chat.email)", :id='chat.id')
             .author-name
               small.chat-date
-                | {{chat.createdAt}}
+                | {{transDate(chat.createdAt)}}
             .chat-message
               | {{chat.text}}
         
       .form-chat
-        .input-group.input-group-sm
+        .input-group.input-group-sm( @keyup.esc="toggleChatButton()" )
           input.form-control(type='text' v-model='text' @keyup.enter="sendMessage(text); text=''")
           span.input-group-btn
             button.btn.btn-primary(type='button' @click="sendMessage(text); text=''")
               | Send
     #small-chat
       //- span.badge.badge-warning.pull-right 5
-      a.open-small-chat( @click='isActive = !isActive')
+      a.open-small-chat( @click='toggleChatButton()')
         i.fa( :class="{'fa-comments': !isActive, 'fa-remove': isActive}" ) 
 </template>
 
@@ -39,8 +39,9 @@
 ################################################
 import Vue from 'vue'
 import VueChatScroll from 'vue-chat-scroll'
-import store from '@/store'
+import shared from '@/shared'
 import firebase from 'firebase'
+import moment from 'moment-timezone'
 
 Vue.use(VueChatScroll)
 
@@ -49,32 +50,53 @@ export default
   name: 'ChatPanel'
   props: ['channel']
   data: () ->
-    authenticated: store.state.auth.authenticated
-    account: if firebase.auth().currentUser then firebase.auth().currentUser else store.state.account
+    shared: shared.state
     isActive: false
     chatRef: Vue.$db.collection("aifirst/#{this.channel}/chats")
     chatList: []
     text: ''
   watch:
     "$route": (to, from) ->
-      vm = @
-      this.chatRef = Vue.$db.collection("aifirst/#{this.channel}/chats")
+      @chatRef = Vue.$db.collection("aifirst/#{this.channel}/chats")
       if(unsubscribe)
         unsubscribe()
         unsubscribe = null
       
-      unsubscribe = this.chatRef
+      unsubscribe = @chatRef
         .orderBy('createdAt', 'desc').limit(50)
-        .onSnapshot (querySnapshot) ->
+        .onSnapshot (querySnapshot) =>
           lastId = ''
-          vm.chatList = []
-          querySnapshot.forEach (doc) ->
+          @chatList = []
+          querySnapshot.forEach (doc) =>
             unless lastId then lastId = doc.data().id
-            vm.chatList.unshift(doc.data())
-          bottom = $('.small-chat-box .content').prop('scrollHeight')
-          $('.sscroll').slimScroll { scrollTo: bottom }
+            @chatList.unshift(doc.data())
+          scrollToBottom()
+  methods:
+    transDate: (date) ->
+      moment.tz(date, "Etc/GMT-9").format("HH:mm")
+  
+    toggleChatButton: () ->
+      this.isActive = !this.isActive
+      
+      if this.isActive
+        setTimeout () ->
+          scrollToBottom()
+        , 1000
 
-
+    isMe: (email) ->
+      if(email is this.shared.me.email) then return true 
+      else return false
+    sendMessage: (text) ->
+      unless text then return
+      this.chatRef.add({
+        channel: this.channel
+        id: Date.now()
+        userName: this.shared.me.userName
+        email: this.shared.me.email
+        text: text
+        createdAt: Date.now()
+      })
+      scrollToBottom()
   mounted: () ->
     initWidgets()
     vm = this
@@ -91,31 +113,10 @@ export default
         querySnapshot.forEach((doc) ->
           unless lastId then lastId = doc.data().id
           vm.chatList.unshift(doc.data())
-        )        
-        bottom = $('.small-chat-box .content').prop('scrollHeight')
-        $('.sscroll').slimScroll { scrollTo: bottom }
+        )
+        scrollToBottom()
+
   
-  methods:
-    isMe: (email) ->
-      if(email is this.account.email) then return true 
-      else return false
-    sendMessage: (text) ->
-      unless text then return
-      this.chatRef.add({
-        channel: this.channel
-        id: Date.now()
-        displayName: this.account.displayName
-        email: this.account.email
-        text: text
-        createdAt: Date.now()
-      })
-      .then(() ->
-        console.log('success: ')
-        text = ''
-      )
-      .catch((err) ->
-        console.error('Error adding document: ', err)
-      )
 
 initWidgets = () ->
   $('.small-chat-box .content').slimScroll({
@@ -123,6 +124,11 @@ initWidgets = () ->
     railOpacity: 0.4,
     start: 'bottom'
   })
+
+scrollToBottom = () ->
+  bottom = $('.small-chat-box .content').prop('scrollHeight')
+  $('.small-chat-box .content').slimScroll { scrollTo: bottom }
+  
 
 ################################################
 </script>
